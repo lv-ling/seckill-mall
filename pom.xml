@@ -21,6 +21,7 @@
         <module>seckill-service</module>
         <module>order-service</module>
         -->
+        <module>seckill-common</module>
     </modules>
 
     <properties>
