@@ -23,6 +23,7 @@
         -->
         <module>seckill-common</module>
         <module>gateway-service</module>
+        <module>product-stock-service</module>
     </modules>
 
     <properties>
