@@ -14,17 +14,11 @@
 
     <!-- 子模块（目前先空着，后面再加） -->
     <modules>
-        <!-- 后续会添加：
         <module>seckill-common</module>
         <module>gateway-service</module>
         <module>product-stock-service</module>
+        <module>order-service</module>
         <module>seckill-service</module>
-        <module>order-service</module>
-        -->
-        <module>seckill-common</module>
-        <module>gateway-service</module>
-        <module>product-stock-service</module>
-        <module>order-service</module>
     </modules>
 
     <properties>
