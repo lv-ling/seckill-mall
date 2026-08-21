@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: seckill-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Shanghai
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: seckill-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  rocketmq-namesrv:
+    image: apache/rocketmq:5.1.4
+    container_name: seckill-rocketmq-namesrv
+    ports:
+      - "9876:9876"
+    command: sh mqnamesrv
+    restart: unless-stopped
+
+  rocketmq-broker:
+    image: apache/rocketmq:5.1.4
+    container_name: seckill-rocketmq-broker
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+      - "10912:10912"
+    environment:
+      NAMESRV_ADDR: seckill-rocketmq-namesrv:9876
+    depends_on:
+      - rocketmq-namesrv
+    command: sh mqbroker -n seckill-rocketmq-namesrv:9876 autoCreateTopicEnable=true
+    restart: unless-stopped

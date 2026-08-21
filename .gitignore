@@ -39,3 +39,6 @@ build/
 .DS_Store
 
 /.idea/
+
+# Docker MySQL 数据目录
+seckill-middleware/mysql-data/
