@@ -11,6 +11,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class StockApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StockApplication.class,args);
+        SpringApplication.run(StockApplication.class, args);
     }
 }

@@ -21,7 +21,8 @@ public class StockService extends ServiceImpl<StockMapper, Stock> {
 
     /**
      * 初始化商品和库存
-     * */
+     *
+     */
     @Transactional(rollbackFor = Exception.class)
     public Long initStock(String name, BigDecimal price, Integer quantity) {
         // 1. 拆入商品
@@ -39,8 +40,23 @@ public class StockService extends ServiceImpl<StockMapper, Stock> {
 
         // 3. 预热到 Redis
         String redisKey = "seckill:stock:" + product.getId();
-        stringRedisTemplate.opsForValue().set(redisKey,String.valueOf(quantity));
+        stringRedisTemplate.opsForValue().set(redisKey, String.valueOf(quantity));
 
         return product.getId();
+    }
+
+    /**
+     * 扣减库存（数据库最终扣减）
+     *
+     * @return true=扣减成功 false=扣减失败
+     *
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deductStock(Long productId, Integer quantity) {
+        // 使用乐观锁或条件更新，防止超卖
+        // UPDATE stock SET quantity = quantity - ？ WHERE product_id = ? quantity >= ?
+        int rows = baseMapper.deductStock(productId, quantity);
+        return rows > 0;
+
     }
 }
