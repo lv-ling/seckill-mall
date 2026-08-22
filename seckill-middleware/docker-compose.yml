@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
@@ -22,6 +20,9 @@ services:
     container_name: seckill-redis
     ports:
       - "6379:6379"
+    command: redis-server --appendonly yes --appendfsync everysec
+    volumes:
+      - redis-data:/data
     restart: unless-stopped
 
   rocketmq-namesrv:
@@ -41,7 +42,13 @@ services:
       - "10912:10912"
     environment:
       NAMESRV_ADDR: seckill-rocketmq-namesrv:9876
+    volumes:
+      - ./broker.conf:/home/rocketmq/rocketmq-5.1.4/conf/broker.conf
     depends_on:
       - rocketmq-namesrv
-    command: sh mqbroker -n seckill-rocketmq-namesrv:9876 autoCreateTopicEnable=true
+    command: sh mqbroker -n seckill-rocketmq-namesrv:9876 -c /home/rocketmq/rocketmq-5.1.4/conf/broker.conf
     restart: unless-stopped
+
+volumes:
+  redis-data:
+    name: seckill-redis-data
