@@ -46,6 +46,19 @@
             <artifactId>seckill-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- 解决 Mac 上 Netty DNS 警告 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver-dns-native-macos</artifactId>
+            <classifier>osx-aarch_64</classifier>   <!-- Apple Silicon (M1/M2/M3) -->
+            <!-- 如果是 Intel 芯片 Mac，改成 osx-x86_64 -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

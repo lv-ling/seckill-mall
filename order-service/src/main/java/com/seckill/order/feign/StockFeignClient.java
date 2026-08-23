@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
-@FeignClient(name = "product-stock-service", url = "http://127.0.0.1:8081")
+@FeignClient(name = "product-stock-service")
 public interface StockFeignClient {
 
-    @PostMapping("/stock/deduct")
+    @PostMapping("/api/stock/deduct")
     Map<String, Object> deductStock(@RequestParam("productId") Long productId,
                                     @RequestParam("quantity") Integer quantity);
 }
