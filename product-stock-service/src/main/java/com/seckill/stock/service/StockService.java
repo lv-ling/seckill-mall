@@ -59,4 +59,14 @@ public class StockService extends ServiceImpl<StockMapper, Stock> {
         return rows > 0;
 
     }
+
+    /**
+     * 查库存商品
+     *
+     */
+    public Stock getByProductId(Long productId) {
+        return this.lambdaQuery()
+                .eq(Stock::getProductId, productId)
+                .one();
+    }
 }

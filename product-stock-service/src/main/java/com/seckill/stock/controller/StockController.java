@@ -1,5 +1,7 @@
 package com.seckill.stock.controller;
 
+import com.seckill.common.dto.StockQueryRequest;
+import com.seckill.common.entity.Stock;
 import com.seckill.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,30 @@ public class StockController {
         } else {
             result.put("code", 500);
             result.put("msg", "库存不足");
+        }
+
+        return result;
+
+    }
+
+    /**
+     * 查询商品库存
+     * 实例：POST /stock/queryStockByProductId
+     *
+     */
+    @PostMapping("/queryStockByProductId")
+    public Map<String, Object> getByProductId(@RequestBody StockQueryRequest stockQueryRequest) {
+        Stock stock = stockService.getByProductId(stockQueryRequest.getProductId());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if (stock != null) {
+            result.put("code", 200);
+            result.put("msg", "查询成功");
+            result.put("data", stock);
+        } else {
+            result.put("code", 404);
+            result.put("msg", "商品不存在");
         }
 
         return result;

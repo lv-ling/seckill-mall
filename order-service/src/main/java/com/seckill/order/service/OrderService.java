@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -46,4 +47,19 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     private String generateOrderNo() {
         return "SO" + System.currentTimeMillis() + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
     }
+
+
+    public List<Order> listByUserId(Long userId) {
+        return this.lambdaQuery()
+                .eq(Order::getUserId, userId)
+                .orderByDesc(Order::getCreateTime)
+                .list();
+    }
+
+    public Order getByOrderNo(String orderNo) {
+        return this.lambdaQuery()
+                .eq(Order::getOrderNo, orderNo)
+                .one();
+    }
+
 }
